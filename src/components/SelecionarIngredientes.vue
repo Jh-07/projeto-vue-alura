@@ -1,11 +1,15 @@
 <script lang="ts">
 import { getCategorias } from '@/http/index';
 import type ICategoria from '@/interfaces/ICategoria';
+import CardCategoria from './CardCategoria.vue';
 export default {
     data(){
         return{
             categorias: [] as ICategoria[]
         }
+    },
+    components:{
+        CardCategoria
     },
     async created(){
         this.categorias = await getCategorias()
@@ -24,7 +28,8 @@ export default {
         </p>
         <ul class="categorias">
             <li v-for="categoria in categorias" v-bind:key="categoria.nome">
-                {{ categoria.nome }}
+                <CardCategoria v-bind:categoria="categoria"/> <!-- categoria do v-bind representa o props dentro do componente card
+                                                                   categoria do lado direito representa a variável categoria que está iterando sob a lista de categorias-->
             </li>
 
         </ul>
