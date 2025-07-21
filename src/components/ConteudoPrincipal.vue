@@ -1,16 +1,19 @@
 <script lang="ts">
 import BotaoPrincipal from './BotaoPrincipal.vue';
+import BuscarReceitas from './BuscarReceitas.vue';
 import Footer from './Footer.vue';
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
 import SuaLista from './SuaLista.vue';
 
+type Pagina = 'SelecionarIngredientes' | 'BuscarReceitas';
 export default {
     data() {
         return {
-            ingredientes: [] as string[]
+            ingredientes: [] as string[],
+            pagina: "SelecionarIngredientes" as Pagina
         }
     },
-    components: {SelecionarIngredientes, SuaLista, BotaoPrincipal, Footer},
+    components: {SelecionarIngredientes, SuaLista, BotaoPrincipal, Footer, BuscarReceitas},
     methods: {
         removerItemDaLista(ingrediente: string): void {
             const indice = this.ingredientes.indexOf(ingrediente);
@@ -24,16 +27,15 @@ export default {
 <template>
     <main class="conteudo-principal">
         <section>
-            <SuaLista v-bind:ingredientes="ingredientes"/><!-- ingredientes da esquerda = ingredientes do props
+            <SuaLista v-bind:ingredientes="ingredientes" /><!-- ingredientes da esquerda = ingredientes do props
                                                                ingredientes da direita = ingredientes do data -->
         </section>
-        <SelecionarIngredientes
-       @selecionar-ingrediente="ingredientes.push($event)" 
-
-       @deselecionar-ingrediente="removerItemDaLista($event)" 
-        />
-
-    <BotaoPrincipal v-bind:texto="'Buscar receitas'"/>
+        <SelecionarIngredientes v-if="(pagina === 'SelecionarIngredientes')"
+            @selecionar-ingrediente="ingredientes.push($event)"
+            @deselecionar-ingrediente="removerItemDaLista($event)" 
+            @buscar-receitas="pagina = 'BuscarReceitas'"/>
+        
+        <BuscarReceitas v-else-if="(pagina === 'BuscarReceitas')"/>
     </main>
     <Footer />
 </template>

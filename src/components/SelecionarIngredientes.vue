@@ -2,6 +2,7 @@
 import { getCategorias } from '@/http/index';
 import type ICategoria from '@/interfaces/ICategoria';
 import CardCategoria from './CardCategoria.vue';
+import BotaoPrincipal from './BotaoPrincipal.vue';
 export default {
     data(){
         return{
@@ -9,12 +10,13 @@ export default {
         }
     },
     components:{
-        CardCategoria
+        CardCategoria,
+        BotaoPrincipal,
     },
     async created(){
         this.categorias = await getCategorias()
     },
-    emits: ['selecionar-ingrediente','deselecionar-ingrediente']
+    emits: ['selecionar-ingrediente','deselecionar-ingrediente', 'buscarReceitas']
 }
 
 </script>
@@ -29,17 +31,20 @@ export default {
         </p>
         <ul class="categorias">
             <li v-for="categoria in categorias" v-bind:key="categoria.nome">
-                <CardCategoria v-bind:categoria="categoria"
+                <CardCategoria 
+                v-bind:categoria="categoria"
                 @selecionar-ingrediente="$emit('selecionar-ingrediente', $event)"
                 @deselecionar-ingrediente="$emit('deselecionar-ingrediente', $event)"
                 /> <!-- categoria do v-bind representa o props dentro do componente card
-                                                                   categoria do lado direito representa a variável categoria que está iterando sob a lista de categorias-->
+                       categoria do lado direito representa a variável categoria que está iterando sob a lista de categorias-->
             </li>
 
         </ul>
         <p class="paragrafo dica">
             Consideraremos que você tem sal, pimenta e água
         </p>
+
+        <BotaoPrincipal v-bind:texto="'Buscar receitas'" @click="$emit('buscarReceitas')"/>
     </section>
 </template>
 
