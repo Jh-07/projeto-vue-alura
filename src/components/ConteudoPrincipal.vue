@@ -1,14 +1,22 @@
 <script lang="ts">
+import BotaoPrincipal from './BotaoPrincipal.vue';
+import Footer from './Footer.vue';
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
 import SuaLista from './SuaLista.vue';
 
 export default {
     data() {
         return {
-            ingredientes: ["Alho", "Orégano", "Pum", "Xeex"]
+            ingredientes: [] as string[]
         }
     },
-    components: {SelecionarIngredientes, SuaLista}
+    components: {SelecionarIngredientes, SuaLista, BotaoPrincipal, Footer},
+    methods: {
+        removerItemDaLista(ingrediente: string): void {
+            const indice = this.ingredientes.indexOf(ingrediente);
+            this.ingredientes.splice(indice, 1);
+        }
+    }
 }
 
 </script>
@@ -16,10 +24,18 @@ export default {
 <template>
     <main class="conteudo-principal">
         <section>
-            <SuaLista v-bind:ingredientes="ingredientes"/>
+            <SuaLista v-bind:ingredientes="ingredientes"/><!-- ingredientes da esquerda = ingredientes do props
+                                                               ingredientes da direita = ingredientes do data -->
         </section>
-        <SelecionarIngredientes/>
+        <SelecionarIngredientes
+       @selecionar-ingrediente="ingredientes.push($event)" 
+
+       @deselecionar-ingrediente="removerItemDaLista($event)" 
+        />
+
+    <BotaoPrincipal v-bind:texto="'Buscar receitas'"/>
     </main>
+    <Footer />
 </template>
 
 <style scoped>

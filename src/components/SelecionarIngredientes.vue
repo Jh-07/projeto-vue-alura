@@ -13,7 +13,8 @@ export default {
     },
     async created(){
         this.categorias = await getCategorias()
-    }
+    },
+    emits: ['selecionar-ingrediente','deselecionar-ingrediente']
 }
 
 </script>
@@ -28,7 +29,10 @@ export default {
         </p>
         <ul class="categorias">
             <li v-for="categoria in categorias" v-bind:key="categoria.nome">
-                <CardCategoria v-bind:categoria="categoria"/> <!-- categoria do v-bind representa o props dentro do componente card
+                <CardCategoria v-bind:categoria="categoria"
+                @selecionar-ingrediente="$emit('selecionar-ingrediente', $event)"
+                @deselecionar-ingrediente="$emit('deselecionar-ingrediente', $event)"
+                /> <!-- categoria do v-bind representa o props dentro do componente card
                                                                    categoria do lado direito representa a variável categoria que está iterando sob a lista de categorias-->
             </li>
 
