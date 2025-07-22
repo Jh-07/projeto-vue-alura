@@ -30,12 +30,18 @@ export default {
             <SuaLista v-bind:ingredientes="ingredientes" /><!-- ingredientes da esquerda = ingredientes do props
                                                                ingredientes da direita = ingredientes do data -->
         </section>
+        <KeepAlive include="SelecionarIngredientes">
+
         <SelecionarIngredientes v-if="(pagina === 'SelecionarIngredientes')"
             @selecionar-ingrediente="ingredientes.push($event)"
             @deselecionar-ingrediente="removerItemDaLista($event)" 
             @buscar-receitas="pagina = 'BuscarReceitas'"/>
         
-        <BuscarReceitas v-else-if="(pagina === 'BuscarReceitas')"/>
+        <BuscarReceitas v-else-if="(pagina === 'BuscarReceitas')"
+        v-bind:lista-ingredientes="ingredientes"
+        @selecionar-ingredientes="pagina = 'SelecionarIngredientes'"/>
+        
+        </KeepAlive>
     </main>
     <Footer />
 </template>

@@ -29,7 +29,15 @@ export default{
 </script>
 
 <template>
-    <button class="ingrediente" v-on:click="selecionar">
+    <button class="ingrediente" v-on:click="selecionar" v-bind:aria-pressed="selecionado" >
         <Tag v-bind:ingrediente="ingrediente" v-bind:ativo="selecionado" />
     </button>
 </template>
+
+<style scoped>
+
+.indgrediente{
+    cursor: pointer
+}
+
+</style>
